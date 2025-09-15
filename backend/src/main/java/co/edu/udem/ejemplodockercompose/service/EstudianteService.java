@@ -22,4 +22,15 @@ public class EstudianteService {
     public Estudiante create(Estudiante estudiante) {
         return estudianteRepository.save(estudiante);
     }
+
+    public Estudiante update(Long id, Estudiante nuevo) {
+        return estudianteRepository.findById(id)
+                .map(estudiante -> {
+                    estudiante.setNombres(nuevo.getNombres());
+                    estudiante.setApellidos(nuevo.getApellidos());
+                    estudiante.setEmail(nuevo.getEmail());
+                    return estudianteRepository.save(estudiante);
+                })
+                .orElseThrow(() -> new RuntimeException("Estudiante no encontrado con id: " + id));
+    }
 }
